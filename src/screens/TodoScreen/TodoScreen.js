@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { Button, Text, TextInput, View } from 'react-native'
 import styles from './TodoScreen.style'
 import TabBar from './components/TabBar'
 import TodoList from './TodoList'
@@ -44,7 +44,11 @@ export default function TodoScreen() {
         id: appState.todos.length + 1
       }
       const todos = [...appState.todos, payload];
-      setAppState({...appState, todos, inputValue: 7})
+      setAppState({...appState, todos, inputValue: ""})
+    }
+
+    const onChangeValue = (val) => {
+      setAppState({ ...appState, inputValue: val });
     }
 
   return (
@@ -59,7 +63,18 @@ export default function TodoScreen() {
 
       {/* form add list */}
       <View style={styles.formSection}>
-        <Text>Ini form</Text>
+        <TextInput
+        placeholder='new todo'
+        value={appState.inputValue}
+        onChangeText={onChangeValue}
+        style={{
+          padding: 10,
+          borderWidth: 1,
+          borderColor: 'black',
+          marginBottom: 5
+        }}
+        />
+        <Button title='submit' onPress={submitTodo} />
       </View>
 
       {/* list */}
