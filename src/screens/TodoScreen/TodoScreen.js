@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FlatList, Text, View } from 'react-native'
 import styles from './TodoScreen.style'
 import TabBar from './components/TabBar'
+import TodoList from './TodoList'
 
 const todoDummy = [
     {id: 1, title: 'olahraga', complete: true},
@@ -18,6 +19,32 @@ export default function TodoScreen() {
 
     const setType = (type) => {
         setAppState({...appState, type})
+    }
+
+    const toggleComplete = (todoIndex) => {
+      const {todos} = appState;
+      todos.forEach(todo => {
+        if(todo.id === todoIndex) {
+          todo.complete = !todo.complete
+        }
+      })
+      setAppState({...appState, todos});
+    }
+
+    const deleteTodo = (todoIndex) => {
+      const {todos: currentTodos} = appState;
+      const newTodos = currentTodos.filter(todo => todo.id !== todoIndex);
+      setAppState({...appState, todos : newTodos})
+    }
+
+    const submitTodo = () => {
+      const payload = {
+        title: appState.inputValue,
+        complete: false,
+        id: appState.todos.length + 1
+      }
+      const todos = [...appState.todos, payload];
+      setAppState({...appState, todos, inputValue: 7})
     }
 
   return (
@@ -37,12 +64,11 @@ export default function TodoScreen() {
 
       {/* list */}
       <View style={styles.listSection}>
-        <FlatList
-        data={todoDummy}
-        renderItem={({item}) => (
-            <Text>{item.id}, {item.title}, {item.complete ? 'Complete':'Uncomplete'}</Text>
-        )}
-        keyExtractor={item => item.id.toString()}
+        <TodoList
+        todos={appState.todos}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        type={appState.type}
         />
       </View>
 

@@ -12,7 +12,7 @@ export default function TabBarItem(props) {
     return (
         <TouchableOpacity
         style={[
-            styles.container,
+            styles.container, styles.border,
             selected ? styles.selected : null
         ]}
         onPress={setType}

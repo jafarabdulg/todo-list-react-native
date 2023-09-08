@@ -17,7 +17,6 @@ const todoStyles = StyleSheet.create({
         width: 3,
         height:3
     },
-
   },
   buttonWrapper: {
     flex: 1,
